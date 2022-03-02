@@ -69,11 +69,11 @@ Shader "URP/Lit"
                 Light mylight=GetMainLight();
                 float3 LightDirWS=normalize( mylight.direction);
                 float spe=dot(normalize(LightDirWS+i.viewDirWS),i.normalWS);//需要取正数
-                real4 specolor=(pow(saturate(spe),_SpecularRange)*_SpecularColor);
+                // real4 specolor=(pow(saturate(spe),_SpecularRange)*_SpecularColor);
                 real4 texcolor=(dot(i.normalWS,LightDirWS)*0.5+0.5)*SAMPLE_TEXTURE2D(_MainTex,sampler_MainTex,i.texcoord)*_BaseColor/PI;
 
                 texcolor*=real4(mylight.color,1);
-                return specolor+texcolor;
+                return texcolor;
             }
             ENDHLSL
         }
