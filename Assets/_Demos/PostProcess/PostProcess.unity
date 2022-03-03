@@ -730,6 +730,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Eloise
       objectReference: {fileID: 0}
+    - target: {fileID: 8919455978647564984, guid: a3ed5251e7de04149bd1ddd6eac10ad9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3ed5251e7de04149bd1ddd6eac10ad9, type: 3}
 --- !u!4 &752613464 stripped
