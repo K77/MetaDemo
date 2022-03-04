@@ -23,10 +23,10 @@ public class SlothFaceCtr : MonoBehaviour
                 m_Face = faces.updated[0];
                 UpdateFaceFeatures();
             }
-            else
-            {
-                m_Face = null;
-            }
+            // else
+            // {
+            //     m_Face = null;
+            // }
         };
         
     }

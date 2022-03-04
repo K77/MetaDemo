@@ -9,6 +9,8 @@ EditorBuildSettings:
     path: Assets/_Demos/ARFace/ARFace.unity
     guid: f95a41180432d440bb420003cc9f388f
   m_configObjects:
+    AR Foundation RemoteARFoundationRemoteLoaderSettings: {fileID: 11400000, guid: bb318ead8ffd548f7895ae53f808d54a,
+      type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: fd01c70cd2fa842778289131d3f21f7c,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 4e990f187336e410db04c5dc9905b930,

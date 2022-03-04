@@ -14,7 +14,8 @@ public class CCFaceCtr : MonoBehaviour
     {
 	    Debug.Log("unity: ccface start: begin");
 // #if UNITY_IOS && !UNITY_EDITOR
-        m_ARKitFaceSubsystem = (ARKitFaceSubsystem)_arFaceManager.subsystem;
+        m_ARKitFaceSubsystem = _arFaceManager.subsystem as ARKitFaceSubsystem;
+        Debug.Log("unity: m_ARKitFaceSubsystem: inited: "+!(m_ARKitFaceSubsystem==null));
 // #endif
 	    initBlendShape();
 	    Debug.Log("unity: ccface start: initBlendShape: done");
@@ -25,10 +26,10 @@ public class CCFaceCtr : MonoBehaviour
                 m_Face = faces.updated[0];
                 UpdateFaceFeatures();
             }
-            else
-            {
-	            m_Face = null;
-            }
+            // else
+            // {
+	           //  m_Face = null;
+            // }
         };
         Debug.Log("unity: ccface start: done");
 
@@ -39,7 +40,7 @@ public class CCFaceCtr : MonoBehaviour
 // #if UNITY_IOS && !UNITY_EDITOR
         ARKitFaceSubsystem m_ARKitFaceSubsystem;
 
-        Dictionary<ARKitBlendShapeLocation, int> m_FaceArkitBlendShapeIndexMap;
+        // Dictionary<ARKitBlendShapeLocation, int> m_FaceArkitBlendShapeIndexMap = new Dictionary<ARKitBlendShapeLocation, int>();
 // #endif
 
     ARFace m_Face;
@@ -51,18 +52,22 @@ public class CCFaceCtr : MonoBehaviour
             return;
         }
 
+
 // #if UNITY_IOS && !UNITY_EDITOR
             using (var blendShapes = m_ARKitFaceSubsystem.GetBlendShapeCoefficients(m_Face.trackableId, Allocator.Temp))
             {
+	            Debug.Log("unity: UpdateFaceFeatures: "+mBlendShapeIndexMap.Keys.Count);
                 foreach (var featureCoefficient in blendShapes)
                 {
                     int mappedBlendShapeIndex;
-                    if (m_FaceArkitBlendShapeIndexMap.TryGetValue(featureCoefficient.blendShapeLocation, out mappedBlendShapeIndex))
+                    int tmp = (int) featureCoefficient.blendShapeLocation;
+                    Debug.Log("unity: mappedBlendShapeIndex 1: "+tmp);
+                    
+                    if (mBlendShapeIndexMap.TryGetValue((CustomARKitBlendShapeLocation)tmp, out mappedBlendShapeIndex))
                     {
-                        if (mappedBlendShapeIndex >= 0)
+	                    if (mappedBlendShapeIndex >= 0)
                         {
-	                        Debug.Log("unity: mappedBlendShapeIndex: "+mappedBlendShapeIndex);
-	                        setBlendShapeWeight((CustomARKitBlendShapeLocation)mappedBlendShapeIndex, featureCoefficient.coefficient * 100f);
+	                        setBlendShapeWeight((CustomARKitBlendShapeLocation)tmp, featureCoefficient.coefficient * 100f);
 	                        // mFaceRenderer.SetBlendShapeWeight(mappedBlendShapeIndex, featureCoefficient.coefficient * 100f);
                         }
                     }
@@ -72,7 +77,7 @@ public class CCFaceCtr : MonoBehaviour
     }
     
     
-    protected Dictionary<CustomARKitBlendShapeLocation, int> mBlendShapeIndexMap;
+    protected Dictionary<CustomARKitBlendShapeLocation, int> mBlendShapeIndexMap = new Dictionary<CustomARKitBlendShapeLocation, int>();
 	protected void initBlendShape()
 	{
 		Debug.Log("unity: ccface start: initBlendShape: begin");
@@ -139,21 +144,23 @@ public class CCFaceCtr : MonoBehaviour
 	protected void registeBlendShape(CustomARKitBlendShapeLocation shape, string name)
 	{
 		mBlendShapeIndexMap.Add(shape, mFaceRenderer.sharedMesh.GetBlendShapeIndex(name));
-		Debug.Log("unity: ccface start: registeBlendShape: done");
+		// Debug.Log("unity: ccface start: registeBlendShape: done");
 	}
 	public void setBlendShapeWeight(CustomARKitBlendShapeLocation location, float weight)
 	{
-		// if (location == CustomARKitBlendShapeLocation.TongueOut) {
-		// 	mTongueRenderer?.SetBlendShapeWeight(mBlendShapeTongueTongueOutIndex, weight);
-		// } else if(location == CustomARKitBlendShapeLocation.JawOpen) {
-		// 	int index = getBlendShapeIndex(location);
-		// 	mTeethRenderer?.SetBlendShapeWeight(mBlendShapeTeethJawOpenIndex, weight);
-		// 	mTongueRenderer?.SetBlendShapeWeight(mBlendShapeTongueJawOpenIndex, weight);
-		// 	mFaceRenderer?.SetBlendShapeWeight(index, weight);
-		// }
-		// else 
+		int index = getBlendShapeIndex(location);
+		if (location == CustomARKitBlendShapeLocation.TongueOut) {
+			// mTongueRenderer?.SetBlendShapeWeight(mBlendShapeTongueTongueOutIndex, weight);
+		} else if(location == CustomARKitBlendShapeLocation.JawOpen) {
+			
+			// mTeethRenderer?.SetBlendShapeWeight(mBlendShapeTeethJawOpenIndex, weight);
+			// mTongueRenderer?.SetBlendShapeWeight(mBlendShapeTongueJawOpenIndex, weight);
+			mFaceRenderer?.SetBlendShapeWeight(index, weight);
+		}
+		else 
 		{
-			int index = getBlendShapeIndex(location);
+			Debug.Log("unity: mappedBlendShape real locate: "+(int)location+",,"+ index);
+
 			mFaceRenderer?.SetBlendShapeWeight(index, weight);
 		}
 	}
