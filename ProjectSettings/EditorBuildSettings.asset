@@ -6,6 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Demos/PostProcess/PostProcess.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+    path: Assets/_Demos/ARFace/ARFace.unity
+    guid: f95a41180432d440bb420003cc9f388f
+  m_configObjects:
+    UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: fd01c70cd2fa842778289131d3f21f7c,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 4e990f187336e410db04c5dc9905b930,
+      type: 2}
