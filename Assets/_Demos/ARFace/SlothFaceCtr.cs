@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARKit;
 
-public class FaceCtr : MonoBehaviour
+public class SlothFaceCtr : MonoBehaviour
 {
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public ARFaceManager _arFaceManager;
@@ -22,6 +22,10 @@ public class FaceCtr : MonoBehaviour
             {
                 m_Face = faces.updated[0];
                 UpdateFaceFeatures();
+            }
+            else
+            {
+                m_Face = null;
             }
         };
         
